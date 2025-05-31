@@ -51,3 +51,28 @@ class ApkTK:
 
         self.frame_bawah2 = tk.Frame(self.root, bg="light blue", highlightbackground="white", highlightthickness=10)
         self.frame_bawah2.pack(side="bottom", fill="both", expand=True)
+
+        self.frame_bawah = tk.Frame(self.root, bg="white")
+        self.frame_bawah.pack(side="bottom", fill="x", expand="True")
+
+        self.frame_kiri = tk.Frame(self.frame_bawah2, bg="lightblue")
+        self.frame_kiri.pack(side="left", fill="both", expand="True")
+
+        self.frame_kanan = tk.Frame(self.frame_bawah2, bg="lightblue")
+        self.frame_kanan.pack(side="right", fill="both", expand="True")
+
+        self.label_judul = tk.Label(self.frame_atas, text="Anggota Kelompok", bg="lightblue", font=("Helvetica", 18))
+        self.label_judul.pack(pady=30)
+
+        anggota = [
+            'Misele Aisya Saram - 2417051017',
+            'Ni Kadek Wahyu Fortuna - 2417051060',
+            'Sindy Meylinda Sari - 2417051028',
+            'Wiyanda Savitri - 2457051007',
+        ]
+
+        self.btn_ang = []
+        for nama in anggota:
+            btn = tk.Button(self.frame_bawah, text=nama, bg="lightblue", font=("Helvetica", 14))
+            btn.pack(pady=10)
+            self.btn_ang.append(btn)
