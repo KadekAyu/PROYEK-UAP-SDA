@@ -76,3 +76,28 @@ class ApkTK:
             btn = tk.Button(self.frame_bawah, text=nama, bg="lightblue", font=("Helvetica", 14))
             btn.pack(pady=10)
             self.btn_ang.append(btn)
+
+self.btn_next = tk.Button(self.frame_kanan, text="Next", font=("Helvetica", 14))
+        self.btn_next.pack(pady=45, padx=50)
+
+        self.btn_back = tk.Button(self.frame_kiri, text="Back", font=("Helvetica", 14), command=self.kembali_ke_utama)
+        self.btn_back.pack(pady=45, padx=50)
+
+    def kembali_ke_utama(self):
+        self.frame_atas.pack_forget()
+        self.frame_bawah2.pack_forget()
+        self.frame_bawah.pack_forget()
+        self.tampilkan_halaman_utama()
+
+    def tampilkan_gambar(self):
+        img = Image.open("welcomepage.png")
+        img = img.resize((576,324))
+        self.photo = ImageTk.PhotoImage(img)
+        self.label_gambar = tk.Label(self.frame_awal, bg="white",image=self.photo)
+        self.label_gambar.pack(pady=40)
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ApkTK(root)
+    root.mainloop()
+
