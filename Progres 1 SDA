@@ -24,3 +24,30 @@ class ApkTK:
         self.btn_masuk.pack(pady = 20)
 
         self.frame_utama = tk.Frame(root)
+
+    def buka_halaman_utama(self):
+        self.frame_awal.pack_forget()
+        self.tampilkan_halaman_utama()
+
+    def tampilkan_halaman_utama(self):
+        self.frame_utama = tk.Frame(self.root, bg="light blue")
+        self.frame_utama.pack(fill="both", expand=True)
+
+        self.btn_kel = tk.Button(self.frame_utama, text="Anggota", font=("Helvetica", 14), command=self.tampilkan_kel)
+        self.btn_kel.pack(pady=50)
+
+        self.btn_ex = tk.Button(self.frame_utama, text="Back", font=("Helvetica", 14), command=self.kembali_ke_awal)
+        self.btn_ex.pack()
+
+    def kembali_ke_awal(self):
+        self.frame_utama.pack_forget()
+        self.frame_awal.pack(fill="both", expand=True)
+
+    def tampilkan_kel(self):
+        self.frame_utama.pack_forget()
+
+        self.frame_atas = tk.Frame(self.root, bg="light blue", highlightbackground="white", highlightthickness=10)
+        self.frame_atas.pack(side="top", fill="x")
+
+        self.frame_bawah2 = tk.Frame(self.root, bg="light blue", highlightbackground="white", highlightthickness=10)
+        self.frame_bawah2.pack(side="bottom", fill="both", expand=True)
