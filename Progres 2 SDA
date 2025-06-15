@@ -441,7 +441,7 @@ class ApkTK:
         self.anggota_card = AnggotaCard(self.root, nama, npm, prodi, gambar_path, self.buka_halaman_utama, self.tampilkan_anggota)
         self.anggota_card.pack(fill="both", expand=True)
 
-def kembali_ke_awal(self):
+    def kembali_ke_awal(self):
         if hasattr(self, "anggota_card"):
             self.anggota_card.pack_forget()
             del self.anggota_card
@@ -456,3 +456,13 @@ def kembali_ke_awal(self):
         self.photo = ImageTk.PhotoImage(img)
         self.label_gambar = tk.Label(self.frame_awal, bg="white",image=self.photo)
         self.label_gambar.pack(pady=40)
+
+    def buka_halaman_skor(self):
+        self.frame_utama.pack_forget()
+        self.skor_frame = Skor(self.root, self)
+
+    def kembali_ke_menu_utama_dari_skor(self):
+        print("Kembali ke menu utama dari halaman skor")
+        if hasattr(self, "skor_frame"):
+            self.skor_frame.frame_u.destroy()
+            del self.skor_frame
