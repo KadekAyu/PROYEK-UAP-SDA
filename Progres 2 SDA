@@ -5,7 +5,7 @@ import csv
 from datetime import datetime
 
 class Skor(tk.Frame):
-    def _init_(self, root, app):
+    def __init__(self, root, app):
         self.root = root
         self.app = app
         self.root.geometry("1000x600")
