@@ -98,7 +98,7 @@ class Skor(tk.Frame):
         self.label_timer_blue = tk.Label(frame_stopwatch, text="00 : 00", font=("Consolas", 48), fg="white", bg="#2F4F4F")
         self.label_timer_blue.pack(expand=True, fill="both")
 
-# Tombol START dan STOP
+        # Tombol START dan STOP
         frame_btn = tk.Frame(frame_for_stopwatch, bg="blue")
         frame_btn.pack(side="left", padx=10)
 
@@ -315,8 +315,8 @@ class Skor(tk.Frame):
             messagebox.showerror("Error", f"Gagal menyimpan: {str(e)}")
         
 class AnggotaCard(tk.Frame):
-    def _init_(self, master, nama, npm, prodi, gambar_path, on_halaman_utama, on_select_anggota):
-        super()._init_(master)
+    def __init__(self, master, nama, npm, prodi, gambar_path, on_halaman_utama, on_select_anggota):
+        super().__init__(master)
         self.nama = nama
         self.npm = npm
         self.prodi = prodi
@@ -397,7 +397,7 @@ class AnggotaCard(tk.Frame):
         self.on_halaman_utama()
 
 class ApkTK:
-    def _init_(self, root):
+    def __init__(self, root):
         self.root = root
         self.root.title("Aplikasi Tkinter Sederhana")
         self.root.geometry("500x500")
