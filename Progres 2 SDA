@@ -292,3 +292,129 @@ class Skor(tk.Frame):
         )
         messagebox.showinfo("Saved", "Data pertandingan telah disimpan!")
         self.stop_stopwatch()  # Hentikan timer tanpa reset
+   def save_to_csv(self, ao_name, aka_name, duration):
+        filename = "match_data.csv"
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        data = {
+            "timestamp": timestamp,
+            "ao_name": ao_name,
+            "aka_name": aka_name,
+            "ao_score": self.scores["Blue"],
+            "aka_score": self.scores["Red"],
+            "duration": duration
+        }
+        
+        try:
+            with open(filename, mode='a', newline='', encoding='utf-8') as file:
+                writer = csv.DictWriter(file, fieldnames=data.keys())
+                if file.tell() == 0:
+                    writer.writeheader()
+                writer.writerow(data)
+        except Exception as e:
+            messagebox.showerror("Error", f"Gagal menyimpan: {str(e)}")
+        
+class AnggotaCard(tk.Frame):
+    def _init_(self, master, nama, npm, prodi, gambar_path, on_halaman_utama, on_select_anggota):
+        super()._init_(master)
+        self.nama = nama
+        self.npm = npm
+        self.prodi = prodi
+        self.gambar_path = gambar_path
+        self.on_halaman_utama = on_halaman_utama
+        self.on_select_anggota = on_select_anggota
+        self.perkenalan()
+
+    def perkenalan(self):
+        # Header
+        header = tk.Frame(self, bg="steelblue4")
+        header.pack(fill="x")
+        img = Image.open("image0.png").resize((50,50))
+        photo_logo = ImageTk.PhotoImage(img)
+        label_logo = tk.Label(header, bg="steelblue4", image=photo_logo)
+        label_logo.image = photo_logo
+        label_logo.pack(side="left", padx=40, pady=5)
+        
+        label_title = tk.Label(header, text="GROUP 7 IDENTITY CARD", bg="steelblue4", fg="white", font=("Elephant", 15))
+        label_title.pack(side="left", padx=10)
+        
+        # Main content
+        content = tk.Frame(self, bg="white")
+        content.pack(fill="both", expand=False)
+
+        content_bottom = tk.Frame(content, bg="steelblue4")
+        content_bottom.pack(side= "bottom", fill="both")
+
+        content_left = tk.Frame(content, bg="white")
+        content_left.pack(side= "left", fill="both", expand=False)
+
+        content_right = tk.Frame(content, bg="white")
+        content_right.pack(side= "left", fill="both", expand=False)
+        
+        # Image
+        img_member = Image.open(self.gambar_path).resize((170,170))
+        photo_member = ImageTk.PhotoImage(img_member)
+        label_img = tk.Label(content_left, image=photo_member, bg="white")
+        label_img.image = photo_member
+        label_img.pack(side="left", padx=20, pady=0)
+        
+        tk.Label(content_right, text="IDENTITY", font=("Elephant", 22), bg="white").pack(anchor="w", pady=8)
+        tk.Label(content_right, text=self.nama, font=("Helvetica", 19), bg="white").pack(anchor="w", pady=9)
+        tk.Label(content_right, text=self.npm, font=("Helvetica", 17), bg="white").pack(anchor="w", pady=12)
+        tk.Label(content_right, text=self.prodi, font=("Helvetica", 17), bg="white").pack(anchor="w", pady=12)
+
+        #foot
+        foot = tk.Frame(content_bottom, bg="steelblue4")
+        foot.pack(padx=10, pady=20)
+         
+        # Frame buat semua tombol di bagian bawah
+        button_bar = tk.Frame(self)
+        button_bar.pack(pady=10)
+
+        # Tombol anggota
+        anggota_list = [
+            ("Misele Aisya Saram", "2417051017", "Ilmu Komputer", "image1.png"),
+            ("Ni Kadek Wahyu F.", "2417051060", "Ilmu Komputer", "image2.png"),
+            ("Sindy Meylinda Sari", "2417051028", "Ilmu Komputer", "image4.png"),
+            ("Wiyanda Savitri", "2457051007", "Ilmu Komputer", "image3.png"),
+        ]
+
+        for i, (nama, npm, prodi, img) in enumerate(anggota_list, 1):
+            btn = tk.Button(button_bar, text=f"Member {i}", font=("Helvetica", 12), bg="steelblue4",
+                            command=lambda n=nama, np=npm, p=prodi, g=img: self.tampilkan_anggota(n, np, p, g))
+            btn.pack(side="left", pady = 50, padx=10)
+
+        # Tombol Kembali
+        btn_back = tk.Button(button_bar, text="Menu", font=("Helvetica", 12), bg="steelblue3", command=self.buka_halaman_utama)
+        btn_back.pack(side="left", pady = 50, padx=10)
+
+    def tampilkan_anggota(self, nama, npm, prodi, gambar_path):
+        self.pack_forget()
+        self.on_select_anggota(nama, npm, prodi, gambar_path)
+
+    def buka_halaman_utama(self):
+        self.pack_forget()
+        self.on_halaman_utama()
+
+class ApkTK:
+    def _init_(self, root):
+        self.root = root
+        self.root.title("Aplikasi Tkinter Sederhana")
+        self.root.geometry("500x500")
+        self.root.resizable(True, True)
+
+        self.frame_awal = tk.Frame(root, bg="white")
+        self.frame_awal.pack(fill="both", expand=True)
+
+        self.tampilkan_gambar()
+
+        self.btn_masuk = tk.Button(
+            self.frame_awal,
+            text = "Masuk",
+            font = ("Helvetica", 14),
+            bg = "steelblue4",
+            command = self.buka_halaman_utama
+        )
+        self.btn_masuk.pack(pady = 20)
+
+        self.frame_utama = tk.Frame(root)
