@@ -97,3 +97,103 @@ class Skor(tk.Frame):
 
         self.label_timer_blue = tk.Label(frame_stopwatch, text="00 : 00", font=("Consolas", 48), fg="white", bg="#2F4F4F")
         self.label_timer_blue.pack(expand=True, fill="both")
+
+import tkinter as tk
+from PIL import Image, ImageTk
+import tkinter.font as tkFont
+import csv
+from datetime import datetime
+
+class Skor(tk.Frame):
+    def _init_(self, root, app):
+        self.root = root
+        self.app = app
+        self.root.geometry("1000x600")
+        self.root.resizable(False, False)
+
+        self.running = False
+        self.time_elapsed = 0
+        self.label_timer_blue = None  
+
+        self.scores = {"Red": 0, "Blue": 0}
+
+        self.frame_u = tk.Frame(root, bg="white")
+        self.frame_u.pack(fill="both", expand=True)
+
+        self.frame_head = tk.Frame(self.frame_u, bg="black")
+        self.frame_head.pack(side="top", fill="both", expand=False)
+
+        self.tampilkan_div()
+
+        self.frame_Ao = tk.Frame(self.frame_u, bg="blue", width=500, height=480)
+        self.frame_Ao.pack(side="left", fill="both", expand=True)
+
+        self.frame_Aka = tk.Frame(self.frame_u, bg="red", width=500, height=480)
+        self.frame_Aka.pack(side="right", fill="both", expand=True)
+
+        self.tampilkan_gambar_flag()
+        self.tampilkan_flag_ao()
+        self.tampilkan_flag_aka()
+        self.tampilkan_stopwatch()
+        self.tampilkan_stopwatch_aka()
+
+        self.frame_bawahAo = tk.Frame(self.frame_Ao, bg="blue")
+        self.frame_bawahAo.pack(side="bottom", fill="both", expand=False)
+
+        self.frame_bawahAka = tk.Frame(self.frame_Aka, bg="red")
+        self.frame_bawahAka.pack(side="bottom", fill="both", expand=False)
+
+        self.tampilan_btn_foot()
+
+    def tampilkan_flag_ao(self):
+        frame_horizontal_ao = tk.Frame(self.frame_Ao, bg="blue")
+        frame_horizontal_ao.pack(pady=0)
+
+        frame_angka_button_ao = tk.Frame(frame_horizontal_ao, bg="blue")
+        frame_angka_button_ao.pack(side="left", padx=10)
+
+        self.label_score_blue = tk.Label(frame_angka_button_ao, text="0", font=("Helvetica", 150), bg="blue", fg="white")
+        self.label_score_blue.pack()
+
+        frame_tombol = tk.Frame(frame_angka_button_ao, bg="blue")
+        frame_tombol.pack(pady=0)
+
+        tk.Button(frame_tombol, text="+1", font=("Helvetica", 14), bg="green", fg="white",
+                  command=lambda: self.update_score("Blue", 1)).pack(side="left", padx=5)
+        tk.Button(frame_tombol, text="-1", font=("Helvetica", 14), bg="blue", fg="white",
+                  command=lambda: self.update_score("Blue", -1)).pack(side="left", padx=5)
+
+        tk.Label(frame_horizontal_ao, image=self.photos[0], bg="white").pack(side="right", padx=5)
+
+    def tampilkan_flag_aka(self):
+        frame_horizontal_aka = tk.Frame(self.frame_Aka, bg="red")
+        frame_horizontal_aka.pack(pady=0)
+
+        frame_angka_button_aka = tk.Frame(frame_horizontal_aka, bg="red")
+        frame_angka_button_aka.pack(side="left", padx=10)
+
+        self.label_score_red = tk.Label(frame_angka_button_aka, text="0", font=("Helvetica", 150), bg="red", fg="white")
+        self.label_score_red.pack()
+
+        frame_tombol_aka = tk.Frame(frame_angka_button_aka, bg="red")
+        frame_tombol_aka.pack(pady=0)
+
+        tk.Button(frame_tombol_aka, text="+1", font=("Helvetica", 14), bg="green", fg="white",
+                  command=lambda: self.update_score("Red", 1)).pack(side="left", padx=5)
+        tk.Button(frame_tombol_aka, text="-1", font=("Helvetica", 14), bg="blue", fg="white",
+                  command=lambda: self.update_score("Red", -1)).pack(side="left", padx=5)
+
+        tk.Label(frame_horizontal_aka, image=self.photos[1], bg="white").pack(side="right", padx=10)
+
+    def tampilkan_stopwatch(self):
+        frame_for_stopwatch = tk.Frame(self.frame_Ao, bg="blue", width=350, height=150)
+        frame_for_stopwatch.pack()
+        frame_for_stopwatch.pack_propagate(False)
+
+        frame_stopwatch = tk.Frame(frame_for_stopwatch, bg="#2F4F4F", width=300, height=150,
+                                highlightbackground="white", highlightthickness=1)
+        frame_stopwatch.pack(side="right", pady=30)
+        frame_stopwatch.pack_propagate(False)
+
+        self.label_timer_blue = tk.Label(frame_stopwatch, text="00 : 00", font=("Consolas", 48), fg="white", bg="#2F4F4F")
+        self.label_timer_blue.pack(expand=True, fill="both")
