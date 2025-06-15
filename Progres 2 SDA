@@ -212,3 +212,83 @@ class Skor(tk.Frame):
         self.entry_aka.pack(side="left", padx=5)
 
         tk.Button(frame_aka, text="Set", font=("Helvetica", 10), command=self.set_name_aka).pack(side="left")
+
+    def tampilkan_gambar_flag(self):
+        self.photos = []
+        img = Image.open("blueflag.png")
+        img = img.resize((160, 160))
+        photo_flag1 = ImageTk.PhotoImage(img)
+        self.photos.append(photo_flag1)
+
+        img2 = Image.open("redflag.png")
+        img2 = img2.resize((160, 160))
+        photo_flag2 = ImageTk.PhotoImage(img2)
+        self.photos.append(photo_flag2)
+
+    def update_score(self, color, amount):
+        self.scores[color] += amount
+        self.update_display()
+
+    def update_display(self):
+        self.label_score_red.config(text=str(int(self.scores['Red'])))
+        self.label_score_blue.config(text=str(int(self.scores['Blue'])))
+
+    def start_stopwatch(self):
+        if not self.running:
+            self.running = True
+            self.update_timer()
+
+    def stop_stopwatch(self):
+        self.running = False
+
+    def update_timer(self):
+        if self.running:
+            minutes = self.time_elapsed // 60
+            seconds = self.time_elapsed % 60
+            self.label_timer_blue.config(text=f"{minutes:02d} : {seconds:02d}")
+            self.label_timer_aka.config(text=f"{minutes:02d} : {seconds:02d}")
+            self.time_elapsed += 1
+            self.root.after(1000, self.update_timer)
+
+    def set_name_ao(self):
+        name = self.entry_ao.get().strip()
+        if name:
+            self.label_namaAo.config(text=name)
+
+    def set_name_aka(self):
+        name = self.entry_aka.get().strip()
+        if name:
+            self.label_namaAka.config(text=name)
+            
+    def reset_all(self):
+        # Reset names (TANPA mengembalikan ke default)
+        current_ao_name = self.label_namaAo.cget("text")
+        current_aka_name = self.label_namaAka.cget("text")
+        
+        # Reset scores
+        self.scores = {"Red": 0, "Blue": 0}
+        self.update_display()
+        
+        # Get timer value BEFORE resetting
+        duration = f"{self.time_elapsed // 60:02d}:{self.time_elapsed % 60:02d}"
+        
+        # Reset stopwatch
+        self.running = False
+        self.time_elapsed = 0
+        self.label_timer_blue.config(text="00 : 00")
+        self.label_timer_aka.config(text="00 : 00")
+        
+        # Clear entry fields
+        self.entry_ao.delete(0, tk.END)
+        self.entry_aka.delete(0, tk.END)
+
+    def done_and_save(self):
+        """Simpan data tanpa reset"""
+        duration = f"{self.time_elapsed // 60:02d}:{self.time_elapsed % 60:02d}"
+        self.save_to_csv(
+            ao_name=self.label_namaAo.cget("text"),
+            aka_name=self.label_namaAka.cget("text"),
+            duration=duration
+        )
+        messagebox.showinfo("Saved", "Data pertandingan telah disimpan!")
+        self.stop_stopwatch()  # Hentikan timer tanpa reset
