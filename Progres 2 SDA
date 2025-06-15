@@ -440,3 +440,19 @@ class ApkTK:
         self.frame_utama.pack_forget()
         self.anggota_card = AnggotaCard(self.root, nama, npm, prodi, gambar_path, self.buka_halaman_utama, self.tampilkan_anggota)
         self.anggota_card.pack(fill="both", expand=True)
+
+def kembali_ke_awal(self):
+        if hasattr(self, "anggota_card"):
+            self.anggota_card.pack_forget()
+            del self.anggota_card
+        if hasattr(self, "frame_utama"):
+            self.frame_utama.pack_forget()
+            del self.frame_utama
+        self.frame_awal.pack(fill="both", expand=True)
+
+    def tampilkan_gambar(self):
+        img = Image.open("welcomepage.png")
+        img = img.resize((576,324))
+        self.photo = ImageTk.PhotoImage(img)
+        self.label_gambar = tk.Label(self.frame_awal, bg="white",image=self.photo)
+        self.label_gambar.pack(pady=40)
